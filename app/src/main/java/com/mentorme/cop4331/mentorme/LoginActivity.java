@@ -3,6 +3,9 @@ package com.mentorme.cop4331.mentorme;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -16,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,6 +29,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -271,7 +276,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success=="success") {
-                finish();
+                Context context = getApplicationContext();
+                CharSequence text = "Successful Log In!";
+                int dur = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(context, text, dur);
+                toast.setGravity(Gravity.CENTER, 0,0);
+                toast.show();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
@@ -286,7 +296,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             conn.setRequestMethod("GET");
 
             conn.connect();
-            mEmailView.setText(conn.getResponseCode());
+            //mEmailView.setText(conn.getResponseCode());
             if (conn.getResponseCode()==200) {
                 conn.disconnect();
 //                new AlertDialog.Builder(LoginActivity.this)
